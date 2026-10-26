@@ -1,0 +1,27 @@
+.discover-dna-wrap {
+  display: flex;
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  min-height: calc(100vh - 141px);
+  h2 {
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 1.125rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.instrunction-wrap {
+  @media screen and (min-width: 992px) {
+    flex-direction: row !important;
+  }
+}
+
+.lang-flag {
+  width: 24px;
+  // height: 24px;
+}

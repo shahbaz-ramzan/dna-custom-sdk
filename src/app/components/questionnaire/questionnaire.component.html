@@ -1,0 +1,181 @@
+<div
+  class="dna-spinner"
+  *ngIf="
+    questionListLoading ||
+    questionStatusLoading ||
+    savingQuestionLoading ||
+    discoveryStatusLoading
+  "
+>
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="error-banner" *ngIf="error" data-testId="error-banner">
+  {{ error }}
+</div>
+<header class="questionair-head">
+  <div class="container d-flex justify-content-between align-items-center">
+    <h2 data-testId="title">
+      {{ "q-header" | translate: selectedLang.lang }}
+    </h2>
+    <div class="flex flex-wrap gap-3">
+      <div class="logout-dropdown" data-testId="logour-dropdown">
+        <a class="instruction-text" (click)="showInstructionDialog()">
+          {{ "popup-instructions-header" | translate: selectedLang.lang }}
+        </a>
+      </div>
+      <p-dropdown
+        [options]="countries"
+        [(ngModel)]="selectedLang"
+        (onChange)="onLanguageChange()"
+        optionLabel="name"
+        [showClear]="false"
+        class="select-language"
+        placeholder="Select a Language"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="selectedLang">
+            <img src="{{ selectedLang.flag }}" class="lang-flag" />
+            <div>{{ selectedLang.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <img
+              src="{{ country.flag }}"
+              class="lang-flag"
+              style="width: 24px"
+            />
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <!-- <div class="flex align-items-center">
+        <p-radioButton
+          name="english"
+          value="enUS"
+          (onClick)="onLanguageChange()"
+          [(ngModel)]="selectedLang.lang"
+          inputId="en"
+        />
+        <label for="en" class="ml-2"> English </label>
+      </div>
+
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="mexican"
+          value="esMX"
+          (onClick)="onLanguageChange()"
+          [(ngModel)]="selectedLang.lang"
+          inputId="esMX"
+        />
+        <label for="mexican" class="ml-2"> Spanish Mexican </label>
+      </div>
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="urdu"
+          value="urPK"
+          (onClick)="onLanguageChange()"
+          [(ngModel)]="selectedLang.lang"
+          inputId="urPK"
+        />
+        <label for="urdu" class="ml-2"> Urdu </label>
+      </div> -->
+    </div>
+  </div>
+</header>
+<!-- <button (click)="speedUpPrompt()">Confirm</button> -->
+<div
+  #animateMe
+  class="container questionair-wrap animate financial-dna-survey-form"
+>
+  <p-progressBar
+    data-testId="progressbar"
+    [value]="questionProgress"
+  ></p-progressBar>
+  <p data-testId="progressbar-percentage" class="completed-text mb-4">
+    {{ questionProgress }} %
+    {{ "questionaire-progress-bar" | translate: selectedLang.lang }}
+  </p>
+  <h4 data-testId="question-number">
+    {{ "q-count-1" | translate: selectedLang.lang }}
+    {{ currentQuestionNumber + 1 }}/{{ allQuestions.length }}
+  </h4>
+  <p data-testId="question-subtitle" class="question-subtitle">
+    {{ "questionaire-screen-instructions" | translate: selectedLang.lang }}
+  </p>
+  <ul
+    class="questionair-list list-unstyled pt-4"
+    data-testId="questionair-section"
+  >
+    <ng-container *ngFor="let part of currentQuestion; index as i">
+      <li>
+        <div>
+          <h4 data-testId="question-title" id="question-title">
+            {{ part?.key | translate: selectedLang.lang }}
+          </h4>
+          <p data-testId="question-description">
+            {{ part?.descriptionKey | translate: selectedLang.lang }}
+          </p>
+        </div>
+        <div class="d-flex action-btn-wrap" data-testId="question-options">
+          <p-selectButton
+            [options]="selectionOptions"
+            [(ngModel)]="part.selectedValue"
+            optionLabel="label"
+            optionValue="value"
+            (onOptionClick)="valueChange(i, $event, null)"
+          >
+            <ng-template let-item pTemplate>
+              <span
+                ng-reflect-ng-class="p-button-icon p-button-icon-le"
+                data-pc-section="icon"
+                class="p-button-icon p-button-icon-left ng-star-inserted"
+                [class]="[item.value, item.icon]"
+              ></span>
+              <span
+                class="p-button-label ng-star-inserted"
+                data-pc-section="label"
+                >{{ item.label }}</span
+              >
+            </ng-template>
+          </p-selectButton>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</div>
+
+<div class="container question-footer" data-testId="questionaire-footer">
+  <footer>
+    <img class="footer-logo" [src]="logo" class="maxheight-40" alt="" />
+    <div class="arrow-btn-wrap d-flex">
+      <button
+        data-testId="prev-btn"
+        pButton
+        icon="pi pi-angle-left"
+        class="p-button-outlined"
+        *ngIf="goBack"
+        (click)="previousQuestion()"
+      ></button>
+      <button
+        data-testId="next-btn"
+        pButton
+        icon="pi pi-angle-right"
+        class="p-button-outlined"
+        (click)="nextQuestion()"
+      ></button>
+    </div>
+  </footer>
+</div>
+
+<p-dialog
+  [header]="'popup-instructions-header' | translate: selectedLang.lang"
+  [(visible)]="instructionModal"
+  [modal]="true"
+  class="instruction-modal dna-modal"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p [innerHTML]="'popup-instructions-body' | translate: selectedLang.lang"></p>
+</p-dialog>

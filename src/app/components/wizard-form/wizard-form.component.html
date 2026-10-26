@@ -1,0 +1,137 @@
+<div class="flex flex-wrap gap-3">
+  <div class="flex align-items-center">
+    <p-radioButton
+      name="english"
+      value="enUS"
+      (onClick)="onLanguageChange()"
+      [(ngModel)]="selectedLanguage"
+      inputId="en"
+    />
+    <label for="en" class="ml-2"> English </label>
+  </div>
+
+  <div class="flex align-items-center">
+    <p-radioButton
+      name="mexican"
+      value="esMX"
+      (onClick)="onLanguageChange()"
+      [(ngModel)]="selectedLanguage"
+      inputId="esMX"
+    />
+    <label for="mexican" class="ml-2"> Spanish Mexican </label>
+  </div>
+  <div class="flex align-items-center">
+    <p-radioButton
+      name="urdu"
+      value="urPK"
+      (onClick)="onLanguageChange()"
+      [(ngModel)]="selectedLanguage"
+      inputId="urPK"
+    />
+    <label for="urdu" class="ml-2"> Urdu </label>
+  </div>
+</div>
+
+<div class="card flex justify-content-center">
+  <p-stepper [(activeStep)]="activeStep" [linear]="true">
+    <p-stepperPanel *ngFor="let item of questions | keyvalue; let i = index">
+      <ng-template pTemplate="header" let-index="index"> </ng-template>
+      <ng-template
+        pTemplate="content"
+        let-nextCallback="nextCallback"
+        let-prevCallback="prevCallback"
+        let-index="index"
+      >
+        <div
+          class="flex flex-column surface-ground border-2 surface-border border-round"
+        >
+          <div class="ml-3 pb-6">
+            <p class="text-2xl mb-2 font-semibold">
+              {{ "q-count-1" | translate : selectedLanguage }} {{ i + 1 }}
+              {{ "q-count-2" | translate : selectedLanguage }}
+              {{ questions.size }}
+            </p>
+            <span class="text-base">
+              {{ "{instructionStatement}" | translate : selectedLanguage }}
+            </span>
+          </div>
+          <div
+            class="flex-auto flex justify-content-between align-items-center font-medium px-5 mb-5"
+            *ngFor="let option of item.value.options; let innerIndex = index"
+          >
+            {{
+              "q" + (i + 1) + "-" + (innerIndex + 1)
+                | translate : selectedLanguage
+            }}
+            <div class="flex flex-wrap gap-3">
+              <div class="flex align-items-center">
+                <p-checkbox
+                  [name]="'question-' + i + 1"
+                  [(ngModel)]="option.value"
+                  [binary]="true"
+                  trueValue="most"
+                  falseValue=""
+                  (onChange)="disableFields(item.value)"
+                  [disabled]="option.disableMost"
+                  inputId="option1"
+                />
+                <label for="option1" class="ml-2">
+                  {{ "selection-most" | translate : selectedLanguage }}
+                </label>
+              </div>
+
+              <div class="flex align-items-center">
+                <p-checkbox
+                  [name]="'question-' + i + 1"
+                  [(ngModel)]="option.value"
+                  [binary]="true"
+                  trueValue="least"
+                  falseValue=""
+                  (onChange)="disableFields(item.value)"
+                  [disabled]="option.disableLeast"
+                  inputId="option2"
+                />
+                <label for="option2" class="ml-2">
+                  {{ "selection-least" | translate : selectedLanguage }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex pt-4"
+          [ngClass]="{
+            'justify-content-between': i > 0,
+            'justify-content-end': i === 0
+          }"
+        >
+          <p-button
+            *ngIf="i > 0"
+            [label]="'previous' | translate : selectedLanguage"
+            severity="secondary"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="prevCallback.emit()"
+          />
+          <p-button
+            *ngIf="i < questions.size - 1"
+            [disabled]="!item.value.areAnswersValid"
+            [label]="'next' | translate : selectedLanguage"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextCallback.emit()"
+          />
+          <p-button
+            *ngIf="i === questions.size - 1"
+            [disabled]="!item.value.areAnswersValid"
+            label="Submit"
+            severity="success"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="onSubmit()"
+          />
+        </div>
+      </ng-template>
+    </p-stepperPanel>
+  </p-stepper>
+</div>

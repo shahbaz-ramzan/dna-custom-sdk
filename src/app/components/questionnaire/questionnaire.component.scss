@@ -1,0 +1,316 @@
+$defaultFont:
+  -apple-system,
+  BlinkMacSystemFont,
+  Segoe UI,
+  Roboto,
+  Helvetica,
+  Arial,
+  sans-serif,
+  "  Apple Color Emoji ",
+  " Segoe UI Emoji ",
+  Segoe UI Symbol;
+
+.questionair-head {
+  width: 100%;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  h2 {
+    margin-bottom: 0;
+    font-weight: 700;
+    color: #000;
+  }
+}
+
+:host {
+  ::ng-deep .questionair-wrap {
+    padding-top: 22px;
+    min-height: calc(100vh - 187px);
+    padding-bottom: 30px;
+    .p-progressbar {
+      height: 12px;
+      border-radius: 20px;
+      background: #f3f4fe;
+      margin-bottom: 8px;
+      .p-progressbar-value {
+        background-color: var(--primary-color);
+        border-radius: 20px;
+      }
+      .p-progressbar-label {
+        display: none !important;
+      }
+    }
+    .completed-text {
+      font-size: 14px;
+      color: #000;
+      font-weight: 400;
+    }
+    .question-subtitle {
+      font-size: 14px;
+    }
+  }
+
+  ::ng-deep .select-language {
+    ul {
+      padding: 0;
+    }
+    .lang-flag {
+      width: 24px;
+      // height: 24px;
+    }
+  }
+
+  ::ng-deep .questionair-list {
+    margin-bottom: 0;
+    li {
+      @media screen and (max-width: 767px) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+      & + li {
+        margin-top: 30px;
+      }
+
+      h4 {
+        font-weight: 700;
+        margin-bottom: 0;
+        font-family: $defaultFont !important;
+      }
+      p {
+        margin-bottom: 0;
+        color: #898989;
+        @media screen and (min-width: 767px) {
+          font-size: 1.125rem;
+        }
+      }
+    }
+    .action-btn-wrap {
+      gap: 24px;
+
+      .p-selectbutton {
+        display: flex;
+        gap: 24px;
+        span {
+          white-space: nowrap;
+        }
+      }
+      [data-pc-section="button"]:has(.most)[aria-pressed="true"],
+      [data-pc-section="button"]:has(.most):hover,
+      .p-highlight[data-pc-section="button"]:has(.most) {
+        background-color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+        font-family: $defaultFont;
+        color: #fff;
+        .p-button-icon {
+          color: #fff !important;
+        }
+      }
+      [data-pc-section="button"]:has(.least)[aria-pressed="true"],
+      [data-pc-section="button"]:has(.least):hover,
+      .p-highlight[data-pc-section="button"]:has(.least) {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: #fff;
+        .p-button-icon {
+          color: #fff !important;
+        }
+      }
+      [data-pc-section="button"]:has(.least)[aria-checked="false"] {
+        .p-button-icon {
+          color: var(--secondary-color);
+        }
+        border-color: var(--secondary-color);
+      }
+      [data-pc-section="button"]:has(.most)[aria-checked="false"] {
+        .p-button-icon {
+          color: var(--primary-color);
+        }
+        border-color: var(--primary-color);
+      }
+      .p-button {
+        font-family: $defaultFont !important;
+        @media screen and (min-width: 768px) {
+          height: 50px;
+          min-width: 121px;
+        }
+        border-radius: 4px;
+        border: solid 1px #003366;
+        box-shadow: none;
+        .p-button-label {
+          transition: none;
+          font-weight: 400;
+          @media screen and (min-width: 768px) {
+            font-size: 1.25rem;
+          }
+        }
+      }
+      .p-button-icon {
+        color: #003366;
+        font-size: 1.5rem;
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
+  ::ng-deep .question-footer {
+    background-color: #fff;
+    footer {
+      display: flex;
+      align-items: center;
+      @media screen and (min-width: 768px) {
+        padding: 10px 0;
+      }
+      @media screen and (max-width: 767px) {
+        padding: 10px 0;
+      }
+      justify-content: space-between;
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      .footer-logo {
+        @media screen and (max-width: 767px) {
+          width: 130px;
+        }
+      }
+    }
+  }
+}
+
+.arrow-btn-wrap {
+  gap: 10px;
+  button {
+    border-color: var(--primary-color);
+    &:hover {
+      border-color: var(--primary-color);
+      background-color: var(--primary-color);
+    }
+    &:focus {
+      box-shadow: none;
+    }
+    @media screen and (min-width: 768px) {
+      height: 48px;
+      width: 48px;
+    }
+    @media screen and (max-width: 767px) {
+      height: 36px;
+      width: 36px;
+    }
+    .p-button-icon {
+      color: var(--primary-color);
+    }
+  }
+  .p-button.p-button-outlined {
+    color: var(--primary-color);
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.modal-anim {
+  animation-name: pop;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(-180deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.shake-anim {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-3px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(4px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-8px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(8px, 0, 0);
+  }
+}
+
+.animate-bottom {
+  position: relative;
+  animation: animatebottom 0.4s;
+}
+
+@keyframes animatebottom {
+  from {
+    bottom: 300px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+.modal.fade.financial-dna-survey-form .modal-dialog {
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition:
+    transform 0.3s ease-out,
+    -webkit-transform 0.3s ease-out;
+  -webkit-transform: translate(-25%, 0);
+  transform: translate(-25%, 0);
+}
+
+.modal.financial-dna-survey-form.show .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.error-banner {
+  background: #fdecea;
+  color: #611a15;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 1rem;
+  text-align: center;
+}

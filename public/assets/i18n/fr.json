@@ -1,0 +1,10 @@
+{
+  "question": "Question",
+  "of": "de",
+  "instructionStatement": "Choisissez 1 option « Le plus » et 1 option « Le moins » ci-dessous. Une ligne restera vide.",
+  "next": "Suivante",
+  "previous": "Précédente",
+  "submit": "Soumettre",
+  "most": "La plupart",
+  "least": "Moins"
+}

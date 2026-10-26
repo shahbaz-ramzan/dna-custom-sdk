@@ -1,0 +1,7 @@
+.p-stepper {
+  flex-basis: 45rem;
+}
+
+::ng-deep ul.p-stepper-nav {
+  display: none;
+}

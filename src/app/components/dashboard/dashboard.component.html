@@ -1,0 +1,484 @@
+<div class="bg-white">
+  <header class="navbar-light pt-4 container" data-testId="header">
+    <div class="d-flex align-items-center justify-content-between">
+      <img [src]="logo" class="maxheight-40" alt="" data-testId="logo" />
+    </div>
+  </header>
+  <div class="dna-spinner" *ngIf="isLoading">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  <div class="facilitator-wrap w-100" *ngIf="!isLoading">
+    <div class="container">
+      <h4 class="text-center mb-0">Your DNA Result is</h4>
+      <h2 class="text-center fw-bold">
+        You Are
+        {{ uniqueStyleAndDescription?.behaviorTypeName }}
+      </h2>
+      <div class="report-wrap" data-testId="report-section">
+        <img
+          [src]="uniqueStyleThumbnail"
+          (click)="showDialog('uniqueStyle')"
+          alt=""
+          *ngIf="showCard['video']"
+        />
+        <div>
+          <p>
+            {{ uniqueStyleAndDescription?.behaviorTypeDescription }}
+          </p>
+          <button
+            data-testId="view-report-btn"
+            pButton
+            class="primary-btn view-report-btn"
+            label="View Report"
+            icon="icon-eye"
+            *ngIf="showCard['report']"
+            (click)="viewReport()"
+          >
+            <i class="icon-eye"></i>
+            View Report
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h3 class="mb-4">Increase Your Understanding</h3>
+      <div class="dna-cards">
+        <!-- <div class="col-lg-6"> -->
+        <p-card
+          data-testId="work-talent-card"
+          *ngIf="showCard['workTalents']"
+          class="common-card overview-card item3"
+          header="Your Contrasting Work Talents"
+        >
+          <p>
+            The shaded circles and scores below indicate your strength level as
+            a percentage of the population with the corresponding descriptor in
+            the same color.
+          </p>
+          <div class="financial-insight-wrap" *ngFor="let talent of scoreBDNA5">
+            <circle-progress
+              [title]="talent.value.toString()"
+              [percent]="
+                talent.label === (talent?.titleSparsed)[0]
+                  ? talent.value
+                  : 100 - talent.value
+              "
+              [radius]="30"
+              [outerStrokeWidth]="8"
+              [innerStrokeWidth]="8"
+              [outerStrokeColor]="secondaryColor"
+              [innerStrokeColor]="primaryColor"
+              [animation]="false"
+              [animationDuration]="300"
+              [imageHeight]="74"
+              [imageWidth]="74"
+              [showSubtitle]="false"
+              [titleColor]="
+                talent.label === (talent?.titleSparsed)[0]
+                  ? secondaryColor
+                  : primaryColor
+              "
+              [unitsColor]="
+                talent.label === (talent?.titleSparsed)[0]
+                  ? secondaryColor
+                  : primaryColor
+              "
+            ></circle-progress>
+            <div>
+              <h6>
+                <span
+                  class="financial-span-green"
+                  [style]="{ color: secondaryColor }"
+                  >{{ (talent?.titleSparsed)[0] }}</span
+                >
+                vs
+                <span
+                  class="financial-span-gold"
+                  [style]="{ color: primaryColor }"
+                  >{{ (talent?.titleSparsed)[2] }}</span
+                >
+              </h6>
+              <p>{{ talent?.description }}</p>
+            </div>
+          </div>
+        </p-card>
+        <p-card
+          data-testId="financial-behavior-card"
+          *ngIf="showCard['fbOverview']"
+          class="common-card overview-card item1"
+          header="Financial Behavior Overview"
+        >
+          <div class="list-heading d-flex align-items-center">
+            <img src="../../../assets/images/key-icon.png" alt="" />
+            <h5 class="ms-2">Your keys to adopting a plan</h5>
+          </div>
+          <ul class="bordered-list list-unstyled mb-0">
+            <li *ngFor="let key of performanceGuide?.environmentKeys">
+              {{ key?.description }}
+            </li>
+          </ul>
+        </p-card>
+        <!-- </div>
+                <div class="col-lg-6"> -->
+        <p-card
+          data-testId="market-mood-card"
+          *ngIf="showCard['marketMood']"
+          class="common-card mw-card item2"
+          header="Market Mood"
+        >
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="video-thumb-card">
+                <img
+                  class="w-100"
+                  src="../../../assets/images/m-wood-img.png"
+                  alt=""
+                />
+                <img
+                  class="play-icon-second"
+                  src="../../../assets/images/play-icon-second.png"
+                  (click)="showDialog('marketMood')"
+                  alt=""
+                />
+                <h5>Market Mood</h5>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <p>
+                Market Mood helps identify your natural style to make financial
+                decisions. It helps advisors manage your market fear so that you
+                can achieve your goals. Use Market Mood to open up discussions
+                with your advisors to share your feelings (such as fear, caution
+                or excitement) about the market movements and the effects they
+                might have on your financial performance.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <h4>People like you are</h4>
+              <h2>{{ marketMood?.mood }}</h2>
+              <p-accordion
+                class="common-accordian"
+                *ngFor="let moodEntity of marketMood?.marketMoodDescriptions"
+              >
+                <p-accordionTab>
+                  <ng-template pTemplate="header">
+                    {{ moodEntity?.heading }}
+                  </ng-template>
+                  <p *ngFor="let desc of moodEntity?.description">
+                    <span *ngIf="moodEntity?.description?.length > 1">-</span>
+                    {{ desc }}
+                  </p>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+        </p-card>
+        <p-card
+          data-testId="fb-insights-card"
+          *ngIf="showCard['fbInsights']"
+          class="common-card overview-card item3"
+          header="5 Key Financial Behavior Insights"
+        >
+          <div
+            class="financial-insight-wrap"
+            *ngFor="let insight of scoreFDNA5"
+          >
+            <circle-progress
+              [percent]="insight?.value"
+              [radius]="30"
+              [outerStrokeWidth]="8"
+              [innerStrokeWidth]="8"
+              [outerStrokeColor]="secondaryColor"
+              [innerStrokeColor]="primaryColor"
+              [animation]="false"
+              [animationDuration]="300"
+              [imageHeight]="74"
+              [imageWidth]="74"
+              [showSubtitle]="false"
+              titleColor="#000000"
+              unitsColor="#000000"
+            >
+            </circle-progress>
+            <div>
+              <h6>{{ insight?.title }}</h6>
+              <p>{{ insight?.description }}</p>
+            </div>
+          </div>
+        </p-card>
+        <!-- </div>
+                <div class="col-lg-6"> -->
+        <p-card
+          data-testId="performance-keys-card"
+          *ngIf="showCard['performanceKeys']"
+          class="common-card item4"
+          header="Performance Keys"
+        >
+          <div class="list-heading d-flex align-items-center">
+            <img src="../../../assets/images/key-icon.png" alt="" />
+            <h5 class="ms-2">
+              Knowing Your Strengths, You Can Increase Your Performance
+              Potential
+            </h5>
+          </div>
+          <ul class="bordered-list list-unstyled mb-0">
+            <li *ngFor="let strength of performanceGuide?.strengths">
+              {{ strength?.description }}
+            </li>
+          </ul>
+          <div class="list-heading d-flex align-items-center">
+            <img src="../../../assets/images/chart-icon.png" alt="" />
+            <h5 class="ms-2">
+              Knowing your struggles, You can reduce your performance
+              impediments
+            </h5>
+          </div>
+          <ul class="bordered-list list-unstyled mb-0">
+            <li *ngFor="let struggle of performanceGuide?.struggles">
+              {{ struggle?.description }}
+            </li>
+          </ul>
+        </p-card>
+        <p-card
+          data-testId="desired-tasks-card"
+          *ngIf="showCard['careerInsights']"
+          class="common-card"
+          header="Your Desired Tasks Based on Talents"
+        >
+          <div class="list-heading d-flex align-items-center">
+            <img src="../../../assets/images/chart-icon.png" alt="" />
+            <h5 class="ms-2">
+              Below you will find a prioritized list of tasks you would likely
+              enjoy based on your natural talents
+            </h5>
+          </div>
+          <div class="desired-task-list">
+            <ul class="bordered-list list-unstyled mb-0">
+              <li
+                *ngFor="
+                  let insight of careerInsightsData?.slice(
+                    0,
+                    careerInsightsData?.length / 2
+                  )
+                "
+              >
+                {{ insight?.name }}
+              </li>
+            </ul>
+            <ul class="bordered-list list-unstyled mb-0">
+              <li
+                *ngFor="
+                  let insight of careerInsightsData?.slice(
+                    careerInsightsData?.length / 2,
+                    undefined
+                  )
+                "
+              >
+                {{ insight?.name }}
+              </li>
+            </ul>
+          </div>
+        </p-card>
+        <p-card
+          data-testId="behavioral-biases"
+          *ngIf="showCard['bBiases']"
+          class="common-card"
+          header="Behavioral Biases"
+        >
+          <p class="mb-4">
+            Your two strongest Behavioral Biases in making decisions are:
+          </p>
+          <div class="dna-bahviour-card">
+            <div
+              class="position-relative video-thumb-card"
+              *ngFor="let biase of behavioralBiases?.slice(0, 2); let i = index"
+            >
+              <img src="../../../assets/images/dna-bahviour-img.png" alt="" />
+              <img
+                class="play-icon-second"
+                src="../../../assets/images/beh-biases-icon.png"
+                (click)="showDialog('biase' + i.toString())"
+                alt=""
+              />
+              <h5>{{ biase?.name }}</h5>
+            </div>
+          </div>
+          <p>
+            There are sixteen different behavioral biases that influence how you
+            make decisions which may get in the way of rational decision-making.
+          </p>
+          <p>
+            discuss with your advisor strategies to help you manage your
+            instincts in your financial plan.
+          </p>
+        </p-card>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  data-testId="video-dialog"
+  [(visible)]="display"
+  [breakpoints]="{ '767px': '100%' }"
+  [style]="{ maxWidth: '600px', width: '100%' }"
+>
+  <iframe
+    width="100%"
+    height="315"
+    [src]="modalVideolink | safe"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+</p-dialog>
+
+<p-dialog
+  data-testId="trial-modal"
+  [(visible)]="displayTrialModal"
+  [modal]="true"
+  class="display-video-modal"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <iframe
+    id="JotFormIFrame-232275590072051"
+    title="Product Selection Tool"
+    onload="window.parent.scrollTo(0,0)"
+    allowtransparency="true"
+    allowfullscreen="true"
+    allow="geolocation; microphone; camera"
+    src="https://form.jotform.com/232275590072051"
+    frameborder="0"
+    style="height: 539px; border: none; width: 100%"
+    scrolling="no"
+    referrerpolicy="strict-origin-when-cross-origin"
+  >
+  </iframe>
+  <script type="text/javascript">
+    var ifr = document.getElementById("JotFormIFrame-232275590072051");
+    if (ifr) {
+      var src = ifr.src;
+      var iframeParams = [];
+      if (window.location.href && window.location.href.indexOf("?") > -1) {
+        iframeParams = iframeParams.concat(
+          window.location.href
+            .substr(window.location.href.indexOf("?") + 1)
+            .split("&")
+        );
+      }
+      if (src && src.indexOf("?") > -1) {
+        iframeParams = iframeParams.concat(
+          src.substr(src.indexOf("?") + 1).split("&")
+        );
+        src = src.substr(0, src.indexOf("?"));
+      }
+      iframeParams.push("isIframeEmbed=1");
+      ifr.src = src + "?" + iframeParams.join("&");
+    }
+    window.handleIFrameMessage = function (e) {
+      if (typeof e.data === "object") {
+        return;
+      }
+      var args = e.data.split(":");
+      if (args.length > 2) {
+        iframe = document.getElementById(
+          "JotFormIFrame-" + args[args.length - 1]
+        );
+      } else {
+        iframe = document.getElementById("JotFormIFrame");
+      }
+      if (!iframe) {
+        return;
+      }
+      switch (args[0]) {
+        case "scrollIntoView":
+          iframe.scrollIntoView();
+          break;
+        case "setHeight":
+          iframe.style.height = args[1] + "px";
+          if (
+            !isNaN(args[1]) &&
+            parseInt(iframe.style.minHeight) > parseInt(args[1])
+          ) {
+            iframe.style.minHeight = args[1] + "px";
+          }
+          break;
+        case "collapseErrorPage":
+          if (iframe.clientHeight > window.innerHeight) {
+            iframe.style.height = window.innerHeight + "px";
+          }
+          break;
+        case "reloadPage":
+          window.location.reload();
+          break;
+        case "loadScript":
+          if (!window.isPermitted(e.origin, ["jotform.com", "jotform.pro"])) {
+            break;
+          }
+          var src = args[1];
+          if (args.length > 3) {
+            src = args[1] + ":" + args[2];
+          }
+          var script = document.createElement("script");
+          script.src = src;
+          script.type = "text/javascript";
+          document.body.appendChild(script);
+          break;
+        case "exitFullscreen":
+          if (window.document.exitFullscreen) window.document.exitFullscreen();
+          else if (window.document.mozCancelFullScreen)
+            window.document.mozCancelFullScreen();
+          else if (window.document.mozCancelFullscreen)
+            window.document.mozCancelFullScreen();
+          else if (window.document.webkitExitFullscreen)
+            window.document.webkitExitFullscreen();
+          else if (window.document.msExitFullscreen)
+            window.document.msExitFullscreen();
+          break;
+      }
+      var isJotForm = e.origin.indexOf("jotform") > -1 ? true : false;
+      if (
+        isJotForm &&
+        "contentWindow" in iframe &&
+        "postMessage" in iframe.contentWindow
+      ) {
+        var urls = {
+          docurl: encodeURIComponent(document.URL),
+          referrer: encodeURIComponent(document.referrer),
+        };
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ type: "urls", value: urls }),
+          "*"
+        );
+      }
+    };
+    window.isPermitted = function (originUrl, whitelisted_domains) {
+      var url = document.createElement("a");
+      url.href = originUrl;
+      var hostname = url.hostname;
+      var result = false;
+      if (typeof hostname !== "undefined") {
+        whitelisted_domains.forEach(function (element) {
+          if (
+            hostname.slice(-1 * element.length - 1) === ".".concat(element) ||
+            hostname === element
+          ) {
+            result = true;
+          }
+        });
+        return result;
+      }
+    };
+    if (window.addEventListener) {
+      window.addEventListener("message", handleIFrameMessage, false);
+    } else if (window.attachEvent) {
+      window.attachEvent("onmessage", handleIFrameMessage);
+    }
+  </script>
+</p-dialog>

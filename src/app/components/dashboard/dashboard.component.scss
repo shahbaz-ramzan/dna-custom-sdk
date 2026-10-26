@@ -1,0 +1,230 @@
+:host {
+  ::ng-deep .facilitator-wrap {
+    float: left;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    overflow-x: hidden;
+    h2 {
+      color: #000000;
+      @media screen and (min-width: 768px) {
+        font-size: 50px;
+      }
+      @media screen and (max-width: 767px) {
+        font-size: 36px;
+      }
+    }
+    .report-wrap {
+      display: flex;
+      max-width: 860px;
+      margin: 10px auto 25px;
+      gap: 30px;
+      color: rgba(0, 0, 0, 0.6);
+      @media screen and (max-width: 992px) {
+        flex-direction: column;
+      }
+      img {
+        border: 1px solid;
+        max-width: 584px;
+      }
+    }
+    h3 {
+      font-size: 26px;
+      font-weight: 400;
+      color: #000000;
+    }
+    .select-report .p-dropdown {
+      min-width: 190px;
+      border: solid 1px #000;
+      height: 40px;
+      border-radius: 4px;
+      .p-dropdown-label {
+        font-size: 0.875rem;
+        color: #000;
+        padding-left: 15px;
+      }
+      .pi-chevron-down {
+        font-size: 10px;
+        color: #000;
+      }
+    }
+  }
+  ::ng-deep .view-report-btn {
+    min-width: 170px;
+    height: 42px;
+    text-transform: uppercase;
+    border-color: #57caf0;
+    background-color: #57caf0;
+    .p-button-label {
+      font-weight: 700;
+    }
+  }
+  ::ng-deep .financial-insight-wrap {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    & + .financial-insight-wrap {
+      margin-top: 10px;
+    }
+    h6 {
+      font-size: 1.125rem;
+      color: #000;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    p {
+      font-size: 1.125rem;
+      color: #000;
+      margin-bottom: 0;
+    }
+    .financial-span-green {
+      color: var(--green-color);
+    }
+    .financial-span-gold {
+      color: var(--gold-color);
+    }
+  }
+  ::ng-deep .common-accordian {
+    .p-accordion-header {
+      a {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        background: transparent !important;
+        border-color: transparent !important;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: none !important;
+        padding: 12px;
+        .p-accordion-header-text {
+          font-size: 1.125rem;
+          color: #000;
+          font-weight: 400;
+        }
+        .p-accordion-toggle-icon {
+          font-size: 10px;
+          margin-right: 0;
+        }
+      }
+    }
+    .p-accordion-content {
+      border-left: none;
+      border-right: none;
+      border-bottom: solid 1px rgba(0, 0, 0, 0.2) !important;
+    }
+  }
+}
+
+.mw-card {
+  h4 {
+    font-size: 1.125rem;
+    color: #000;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 2.5rem;
+    color: #92d14f;
+    font-weight: 500;
+  }
+  p {
+    font-size: 1.125rem;
+    line-height: 25px;
+    color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+.video-thumb-card {
+  position: relative;
+  .play-icon-second {
+    position: absolute;
+    top: 38%;
+    left: 43%;
+  }
+  h5 {
+    color: #fff;
+    position: absolute;
+    left: 0;
+    top: 78%;
+    right: 0;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+
+ul.bordered-list {
+  padding-left: 7px;
+  li {
+    font-size: 1.125rem;
+    line-height: 25px;
+    color: rgba(0, 0, 0, 0.8);
+    &::before {
+      content: "-";
+      position: relative;
+      bottom: 0px;
+      left: -5px;
+    }
+  }
+}
+
+.list-heading {
+  margin-bottom: 10px;
+  h5 {
+    font-size: 1.25rem;
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+}
+
+.bordered-list + .list-heading {
+  margin-top: 20px;
+}
+
+.dna-bahviour-card {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  @media screen and (max-width: 992px) {
+    flex-direction: column;
+    align-items: center;
+  }
+  .video-thumb-card {
+    max-width: 208px;
+  }
+  h5 {
+    top: 75%;
+    font-size: 1.125rem;
+    color: rgba(187, 223, 255, 1);
+  }
+}
+
+.dna-cards {
+  margin: 0 -15px;
+  .common-card {
+    margin-bottom: 30px;
+    padding: 0 15px;
+    &:nth-child(odd) {
+      float: left;
+      @media screen and (min-width: 768px) {
+        width: 50%;
+      }
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+    }
+    &:nth-child(even) {
+      float: right;
+      @media screen and (min-width: 768px) {
+        width: 50%;
+      }
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+    }
+    .desired-task-list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+  }
+}

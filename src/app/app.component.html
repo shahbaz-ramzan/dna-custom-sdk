@@ -1,0 +1,5 @@
+<!-- <app-wizard-form *ngIf="showForm"></app-wizard-form> -->
+<div class="dna-spinner" *ngIf="loading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<router-outlet *ngIf="showForm"></router-outlet>
